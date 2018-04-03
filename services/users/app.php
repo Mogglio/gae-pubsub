@@ -26,10 +26,10 @@ use Silex\Application;
 // create the Silex application
 $app = new Application();
 
-$app->get('/', function () use ($app) {
+$app->get('/login', function () use ($app) {
     # [START get_current_user]
     $user = UserService::getCurrentUser();
-
+echo 'toto';
     if (isset($user)) {
         return sprintf('Welcome, %s! (<a href="%s">sign out</a>)',
             $user->getNickname(),
@@ -41,28 +41,22 @@ $app->get('/', function () use ($app) {
     # [END get_current_user]
 });
 
-$app->get('/admin', function () use ($app) {
-    # [START check_administrator]
-    $user = UserService::getCurrentUser();
-    if (isset($user) && UserService::isCurrentUserAdmin()) {
-        return 'Welcome administrator.';
-    }
-    return 'You are not an administrator.';
-    # [END check_administrator]
-});
 
-$app->get('/user', function () use ($app) {
-    # [START new_user]
-    $user = new User('Albert.Johnson@example.com');
-    # [END new_user]
-    return sprintf('Nickname is %s', $user->getNickname());
-});
 
-$app->get('/federatedUser', function () use ($app) {
-    # [START new_federated_user]
-    $user = new User(null, 'http://example.com/id/ajohnson');
-    # [END new_federated_user]
-    return sprintf('Nickname is %s', $user->getNickname());
-});
+$projectId = "upjv-ccm-etu-013";
+$topicName = "userOnLine";
+$user = UserService::getCurrentUser();
+$message = $user->getNickname();
+pubUserInTopic($projectId,$topicName,$message);
+
+function pubUserInTopic($projectId, $topicName, $message)
+{
+
+    $pubsub = new PubSubClient([
+        'projectId' => $projectId,
+    ]);
+    $topic = $pubsub->topic($topicName);
+    $topic->publish(['data' => $message]);
+}
 
 return $app;

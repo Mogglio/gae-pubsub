@@ -4,5 +4,5 @@ api_version: 1
 service: auth
 
 handlers:
-- url: /login/.*
+- url: /.*
   script: index.php
