@@ -3,7 +3,12 @@
 
 dispatch:
   # pour tous les noms de domaine suivi de admin/ <n'import quoi> c'est le service admin
-  - url: "*/admin/*"
+  - url: "/admin/*"
     service: admin
-  - url: "*/front/*"
+
+  - url: "/front/*"
     service: front
+
+  - url: "/login/*"
+    service: auth
+
