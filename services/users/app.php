@@ -19,8 +19,7 @@
 use google\appengine\api\users\UserService;
 # [END import]
 # [START import_user]
-use google\appengine\api\users\User;
-# [END import_user]
+use google\appengine\api\users\User;# [END import_user]
 
 use Silex\Application;
 
