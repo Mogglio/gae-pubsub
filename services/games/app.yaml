@@ -1,6 +1,7 @@
 runtime: php55
 api_version: 1
 threadsafe: true
+service: games
 
 handlers:
 - url: /.*

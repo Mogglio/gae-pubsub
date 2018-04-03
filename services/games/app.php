@@ -27,7 +27,7 @@ $app = new Application();
 $app->register(new TwigServiceProvider());
 $app['twig.path'] = [ __DIR__ ];
 
-$app->get('/', function () use ($app) {
+$app->get('/games/', function () use ($app) {
     $my_bucket = $app['bucket_name'];
     $default_bucket = CloudStorageTools::getDefaultGoogleStorageBucketName();
     if ($my_bucket == '<your-bucket-name>') {
@@ -79,7 +79,7 @@ $app->get('/', function () use ($app) {
  * Read from the filesystem.
  * @see https://cloud.google.com/appengine/docs/php/googlestorage/#is_there_any_other_way_to_read_and_write_files
  */
-$app->get('/file.txt', function () use ($app) {
+$app->get('/games/file.txt', function () use ($app) {
     $filePath = __DIR__ . '/file.txt';
     # [START read_simple]
     $fileContents = file_get_contents($filePath);
@@ -91,7 +91,7 @@ $app->get('/file.txt', function () use ($app) {
  * Write to a Storage bucket.
  * @see https://cloud.google.com/appengine/docs/php/googlestorage/#simple_file_write
  */
-$app->post('/write', function (Request $request) use ($app) {
+$app->post('/games/write', function (Request $request) use ($app) {
     $newFileContent = $request->get('content');
     $my_bucket = $app['bucket_name'];
     # [START write_simple]
@@ -104,7 +104,7 @@ $app->post('/write', function (Request $request) use ($app) {
  * Write to a Storage bucket with file context.
  * @see https://cloud.google.com/appengine/docs/php/googlestorage/#simple_file_write
  */
-$app->post('/write/options', function (Request $request) use ($app) {
+$app->post('/games/write/options', function (Request $request) use ($app) {
     $newFileContent = $request->get('content');
     $my_bucket = $app['bucket_name'];
     # [START write_options]
@@ -119,7 +119,7 @@ $app->post('/write/options', function (Request $request) use ($app) {
  * Write to a Storage bucket using a stream.
  * @see https://cloud.google.com/appengine/docs/php/googlestorage/#streamed_file_write
  */
-$app->post('/write/stream', function (Request $request) use ($app) {
+$app->post('/games/write/stream', function (Request $request) use ($app) {
     $newFileContent = $request->get('content');
     $my_bucket = $app['bucket_name'];
     # [START write_stream]
@@ -135,7 +135,7 @@ $app->post('/write/stream', function (Request $request) use ($app) {
  * Write to a Storage bucket with caching.
  * @see https://cloud.google.com/appengine/docs/php/googlestorage/advanced#cached_file_reads
  */
-$app->post('/write/caching', function (Request $request) use ($app) {
+$app->post('/games/write/caching', function (Request $request) use ($app) {
     $newFileContent = $request->get('content');
     $my_bucket = $app['bucket_name'];
     # [START write_caching]
@@ -156,7 +156,7 @@ $app->post('/write/caching', function (Request $request) use ($app) {
  * Write to a Storage bucket with custom metadata.
  * @see https://cloud.google.com/appengine/docs/php/googlestorage/advanced#reading_and_writing_custom_metadata
  */
-$app->post('/write/metadata', function (Request $request) use ($app) {
+$app->post('/games/write/metadata', function (Request $request) use ($app) {
     $newFileContent = $request->get('content');
     $my_bucket = $app['bucket_name'];
     # [START write_metadata]
@@ -175,7 +175,7 @@ $app->post('/write/metadata', function (Request $request) use ($app) {
  * Write to the default Storage bucket.
  * @see https://cloud.google.com/appengine/docs/php/googlestorage/setup
  */
-$app->post('/write/default', function (Request $request) use ($app) {
+$app->post('/games/write/default', function (Request $request) use ($app) {
     $newFileContent = $request->get('content');
     # [START write_default]
     $default_bucket = CloudStorageTools::getDefaultGoogleStorageBucketName();
@@ -188,7 +188,7 @@ $app->post('/write/default', function (Request $request) use ($app) {
  * Write to the default bucket using a stream.
  * @see https://cloud.google.com/appengine/docs/php/googlestorage/setup
  */
-$app->post('/write/default/stream', function (Request $request) use ($app) {
+$app->post('/games/write/default/stream', function (Request $request) use ($app) {
     $newFileContent = $request->get('content');
     # [START write_default_stream]
     $default_bucket = CloudStorageTools::getDefaultGoogleStorageBucketName();
@@ -203,7 +203,7 @@ $app->post('/write/default/stream', function (Request $request) use ($app) {
  * Serve a file from Storage and preserve the ACL.
  * @see https://cloud.google.com/appengine/docs/php/googlestorage/public_access#serving_files_from_a_script
  */
-$app->get('/serve', function () use ($app) {
+$app->get('/games/serve', function () use ($app) {
     $my_bucket = $app['bucket_name'];
     if (!file_exists("gs://${my_bucket}/serve.txt")) {
         file_put_contents("gs://${my_bucket}/serve.txt", <<<EOF
@@ -222,7 +222,7 @@ EOF
  * Create a file with a public URL.
  * @see https://cloud.google.com/appengine/docs/php/googlestorage/public_access#serving_files_directly_from_google_cloud_storage
  */
-$app->get('/write/public', function () use ($app) {
+$app->get('/games/write/public', function () use ($app) {
     $my_bucket = $app['bucket_name'];
     $publicFileText = sprintf('new file written at %s', date('Y-m-d H:i:s'));
     # [START write_public]
@@ -241,7 +241,7 @@ $app->get('/write/public', function () use ($app) {
  * Handle an uploaded file.
  * @see https://cloud.google.com/appengine/docs/php/googlestorage/user_upload#implementing_file_uploads
  */
-$app->post('/upload/handler', function () use ($app) {
+$app->post('/games/upload/handler', function () use ($app) {
     $my_bucket = $app['bucket_name'];
     # [START move_uploaded_file]
     $file_name = $_FILES['uploaded_files']['name'];
@@ -255,7 +255,7 @@ $app->post('/upload/handler', function () use ($app) {
  * Serve an image from Storage.
  * @see https://cloud.google.com/appengine/docs/php/googlestorage/images
  */
-$app->get('/serve/image', function () use ($app) {
+$app->get('/games/serve/image', function () use ($app) {
     $my_bucket = $app['bucket_name'];
     if (!file_exists("gs://${my_bucket}/image.jpg")) {
         copy(__DIR__ . '/image.jpg', "gs://${my_bucket}/image.jpg");

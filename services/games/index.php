@@ -22,7 +22,7 @@ require __DIR__ . '/vendor/autoload.php';
 $app = require __DIR__ . '/app.php';
 
 // change this to your bucket name!
-$app['bucket_name'] = '<your-bucket-name>';
+$app['bucket_name'] = 'V-Grade';
 
 // Run the app!
 // use "gcloud app deploy" or run locally with dev_appserver.py
